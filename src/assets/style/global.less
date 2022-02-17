@@ -1,0 +1,26 @@
+@iterations: 5;
+@marginBase: 5;
+@weightBase: 100;
+
+.text {
+  &-center {
+    text-align: center;
+  }
+}
+
+// .w {
+//   &-@{number}{
+//     width: @number;
+//   }
+// }
+
+.loop(@i) when (@i > 0) {
+  .mt-@{i} {
+    margin-top: unit(@marginBase * @i, px);
+  }
+  .font-weight-@{i} {
+    font-weight: (@weightBase * @i);
+  }
+  .loop(@i - 1);
+}
+.loop(@iterations);
