@@ -1,9 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { setupAntd } from "./libs/antdv"; // 新增++
+import { setupAntd } from "./libs/antdv"
 import * as Icons from '@ant-design/icons-vue';
-import { store, key } from './store'
+import { store, key } from './store/store'
 import Axios from 'axios'
+import './interface/interface';
 
 const app = createApp(App);
 const icons :any = Icons;
