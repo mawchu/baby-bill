@@ -1,6 +1,6 @@
 
 <template>
-  <a-col :span="span">
+  <a-col :sm="span" span="24">
     <a-form-item :label="label" :name="name" has-feedback>
       <a-input v-if="type === 'number'"
         v-model:value.number="inputDatas.numberValue" 

@@ -1,9 +1,9 @@
 
 <template>
-  <a-col :span="span">
+  <a-col :sm="span" span="24">
     <a-form-item :label="label" :name="name" has-feedback>
       <a-select v-model:value="selectDatas.value" placeholder="請選擇商品類別" @select="sendSelectEmit">
-        <a-select-option v-for="(option, key, index) in options" :value="index" :key="key">
+        <a-select-option v-for="(option, key, index) in options" :value="option.item" :key="key">
           {{ option.item }}
         </a-select-option>
       </a-select>
@@ -12,8 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, UnwrapRef, toRaw, ref } from 'vue';
-const props = defineProps<{ span: number, label: string, name: string, placeholder: string, options: any }>()
+import { reactive, watch, UnwrapRef, toRaw, ref } from 'vue';
+const props = defineProps<{ 
+  span: number, 
+  label: string, 
+  name: string, 
+  placeholder: string, 
+  options: any,
+  isReset?: boolean; // 偵測resetForm是否被按了
+}>()
 
 const emit = defineEmits(['sendSelect'])
 const selectDatas = reactive({
@@ -25,6 +32,10 @@ const selectDatas = reactive({
 function sendSelectEmit () {
   emit('sendSelect', toRaw(selectDatas));
 }
+
+watch(()=> props.isReset, ()=> {
+  selectDatas.value = ''
+})
 
 </script>
 

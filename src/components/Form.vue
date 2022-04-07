@@ -1,9 +1,11 @@
 
 <template>
   <a-row type="flex" class="h-full p-3" justify="space-around" align="middle">
-    <a-col class="w-800 bg-light-grey p-6">
-      <a-typography-title class="text-center">{{ title }} <FormOutlined /></a-typography-title>
-      <hr>
+    <a-col class="w-800 bg-light-grey rounded-3 p-6">
+      <a-typography-title class="text-center mb-2">
+        {{ title }} <FormOutlined />
+      </a-typography-title>
+      <hr class="mb-3">
       <a-form
         ref="formRef"
         :rules="rules"
@@ -47,6 +49,7 @@
             @sendInput="sendInput"/>
           <SelectInput
             :span="12"
+            :isReset="isReset"
             label="選擇商品類別"
             name="item"
             placeholder="請選擇商品類別"
@@ -56,18 +59,18 @@
         <a-row :gutter="16" justify="space-around">
           <a-col :span="4">
             <a-typography-text class="hint bold">顯示小單位</a-typography-text><br>
-            <a-switch class="mt-3" v-model:checked="formState.showUnit" />
+            <a-switch class="mt-3" v-model:checked="showUnit" />
           </a-col>
           <Input 
-            :span="formState.showUnit? 10: 20"
+            :span="showUnit? 10: 20"
             :isReset="isReset"
             type="number" 
-            :label="formState.showUnit? '購買大單位數(ex.一包尿布)' : '購買數量'"
+            :label="showUnit? '購買大單位數(ex.一包尿布)' : '購買數量'"
             name="groupNumber" 
             placeholder="請輸入數量"
             @sendInput="sendInput"/>
           <Input
-            v-show="formState.showUnit"
+            v-show="showUnit"
             :isReset="isReset"
             :span="10"
             type="number"
@@ -105,11 +108,11 @@
               allow-clear
               showCount
               :maxlength="100" />
-            <a-form-item @click="sendDatas" class="mt-5">
-              <a-button type="primary">Submit</a-button>
+            <a-form-item @click="sendDatas" class="mb-0">
+              <a-button type="primary">提交消費</a-button>
               <a-button style="margin-left: 10px"
                 @click="resetForm">
-                Reset
+                重填
               </a-button>
             </a-form-item>
           </a-col>
@@ -132,9 +135,10 @@ const props = defineProps<{ title: string }>()
 const emit = defineEmits(['send', 'sendInput', 'sendDate', 'sendSelect'])
 
 const dateFormat = 'YYYY/MM/DD';
-const today = moment();
-const isReset = ref(false);
-const formRef = ref();
+const today = moment()
+const isReset = ref(false)
+const showUnit = ref(false)
+const formRef = ref()
 const formState: UnwrapRef<FormState> = reactive({
   layout: 'vertical',
   date: undefined,
@@ -142,23 +146,22 @@ const formState: UnwrapRef<FormState> = reactive({
   name: '',
   item: '',
   brand: '',
-  showUnit: false,
   groupNumber: 1,
   quantity: 1,
   price: 0,
-  singlePrice: computed(()=> (formState.total / (formState.groupNumber * formState.quantity))),
+  singlePrice: computed(()=> Number((formState.total / (formState.groupNumber * formState.quantity)).toFixed(3))),
   total: 0,
   memo: '',
   region: ''
 });
 const options = [
-  { item: '奶粉', showGroup: false, showItem: false },
-  { item: '尿布', showGroup: false, showItem: false },
-  { item: '玩具', showGroup: false, showItem: false },
-  { item: '衣服', showGroup: false, showItem: false },
-  { item: '保養', showGroup: false, showItem: false },
-  { item: '家具', showGroup: false, showItem: false },
-  { item: '其他', showGroup: false, showItem: false }
+  { item: '奶粉' },
+  { item: '尿布' },
+  { item: '玩具' },
+  { item: '衣服' },
+  { item: '保養' },
+  { item: '家具' },
+  { item: '其他' }
 ]
 
 // 自定義規則
@@ -185,10 +188,6 @@ let checkPrice = async (rule: RuleObject, value: number) => {
       return Promise.resolve();
     }
   }
-};
-
-let checkSinglePrice = async (rule: RuleObject, value: number) => {
-  return Promise.resolve();
 };
 
 let checkSelect = async (rule: RuleObject, value: number) => {

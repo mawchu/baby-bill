@@ -1,16 +1,20 @@
 <template>
   <a-drawer
-    title="Basic Drawer"
+    title="寶寶花費記帳小工具"
     :placement="placement"
     :closable="false"
     :visible="visible"
     @close="closeDrawer"
   >
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    <p class="router-link">
+      <router-link to="/createBill">建立新花費</router-link>
+    </p>
+    <p class="router-link">
+      <router-link to="/billList">花費清單</router-link>
+    </p>
   </a-drawer>
-  <a-row type="flex" justify="end" class="fixed header">
-    <a-button type="primary" size="large" shape="circle" @click="openDrawer">
+  <a-row type="flex" justify="end" class="fixed header pointer-events-none">
+    <a-button type="primary" size="large" shape="circle" @click="openDrawer" class="pointer-events-auto">
       <CloseOutlined v-if="visible"/>
       <MenuOutlined v-else />
     </a-button>
@@ -36,6 +40,13 @@ function closeDrawer() {
   visible.value = false;
 }
 </script>
-<style scoped>
-  
+<style lang="less" scoped>
+  .pointer-events {
+    &-none {
+      pointer-events: none;
+    }
+    &-auto {
+      pointer-events: auto;
+    }
+  }
 </style>

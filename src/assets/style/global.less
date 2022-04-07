@@ -1,6 +1,25 @@
+@import '~ant-design-vue/lib/style/themes/default.less';
+@import '~ant-design-vue/dist/antd.less'; // Import Ant Design styles by less entry
+
 @iterations: 10;
 @marginBase: 5;
+@roundBase: 10;
 @weightBase: 100;
+@primary: #2d8d82;
+
+p.router-link > a {
+  transition: .5s all;
+  font-weight: 400;
+  color: @primary;
+  &:hover {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
+
+.main {
+  max-width: 1200px;
+}
 
 .fixed {
   position: fixed;
@@ -55,16 +74,37 @@
 //     width: @number;
 //   }
 // }
+.mx-auto {
+  margin: auto;
+}
 
-.loop(@i) when (@i > 0) {
+.loop(@i) when (@i >= 0) {
+  .m-@{i} {
+    margin: unit(@marginBase * @i, px);
+  }
   .mt-@{i} {
     margin-top: unit(@marginBase * @i, px);
+  }
+  .mb-@{i} {
+    margin-bottom: unit(@marginBase * @i, px);
+  }
+  .ma-@{i} {
+    margin: unit(@marginBase * @i, px);
   }
   .p-@{i} {
     padding: unit(@marginBase * @i, px);
   }
+  .p-t@{i} {
+    padding-top: unit(@marginBase * @i, px);
+  }
+  .pb-@{i} {
+    padding-bottom: unit(@marginBase * @i, px);
+  }
   .font-weight-@{i} {
     font-weight: (@weightBase * @i);
+  }
+  .rounded-@{i} {
+    border-radius: unit(@roundBase * @i, px);
   }
   .loop(@i - 1);
 }

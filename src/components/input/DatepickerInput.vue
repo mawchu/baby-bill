@@ -1,6 +1,6 @@
 
 <template>
-  <a-col :span="span">
+  <a-col :sm="span" span="24">
     <a-form-item :label="label" :name="name">
       <a-date-picker v-model:value="dateDatas.value" style="width: 100%"
         :format="dateFormat" :autofocus="true" :showToday="true" 

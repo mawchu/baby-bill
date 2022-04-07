@@ -56,6 +56,17 @@ class ApiClient {
       data: data
     })
   }
+  /*
+  * 插入資料在最後
+  */
+  public appendSheetValue (data: any) {
+    return this.localhostBaseURL.request({
+      method: 'post',
+      url: './appendValues',
+      headers: this.header,
+      data: data
+    })
+  }
 }
 
 const ApiClientInstance = new ApiClient();
