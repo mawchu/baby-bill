@@ -1,26 +1,23 @@
 <template>
-  <div class="main mx-auto">
-    <div class="mt-6">
+  <div class="main mx-auto mt-10">
+    <div class="mt-6 mx-3">
       <a-select
-      v-model:value="value1"
-      style="width: 120px"
-    >
-      <a-select-option value="jack">Jack</a-select-option>
-      <a-select-option value="lucy">Lucy</a-select-option>
-      <a-select-option value="Yiminghe">yiminghe</a-select-option>
+        v-model:value="selectSheet"
+        style="width: 120px"
+      >
+      <a-select-option
+        v-for="(item, index) in getSheetListDatas"
+        :key="index"
+        :value="item.title">
+        {{ item.title }}
+      </a-select-option>
     </a-select>
     </div>
-    <div>
-      <a-table :columns="columns" :data-source="data" class="ma-3">
-        <template #name="{ text }">
-          <a>{{ text }}</a>
-        </template>
-        <template #customTitle>
-          <span>
-            <smile-outlined />
-            Name
-          </span>
-        </template>
+    <div class="wrapper">
+      <a-table
+        :columns="columns"
+        :data-source="data"
+        class="ma-3">
         <template #tags="{ text: tags }">
           <span>
             <a-tag
@@ -32,18 +29,6 @@
             </a-tag>
           </span>
         </template>
-        <template #action="{ record }">
-          <span>
-            <a>Invite 一 {{ record.name }}</a>
-            <a-divider type="vertical" />
-            <a>Delete</a>
-            <a-divider type="vertical" />
-            <a class="ant-dropdown-link">
-              More actions
-              <down-outlined />
-            </a>
-          </span>
-        </template>
       </a-table>
     </div>
   </div>
@@ -52,85 +37,120 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import { ref, reactive, computed } from 'vue'
-import Header from '../components/Header.vue'
-import Form from '../components/Form.vue'
-import { useStore } from 'vuex'
-import { key } from '../store/store'
+import { ref, reactive, computed, watch } from 'vue'
 import { mapState, mapGetters, mapMutations, mapActions } from '../store/mapStates'
-import { TableState, TableStateFilters } from 'ant-design-vue/es/table/interface';
+import { groupBy, map, forEach, flatten } from 'lodash-es';
 
 // mapStates 組合引入寫法
-const { loadSheetList, doSheetAction, initSheetValue, insertSheetValue } = mapActions()
+const { loadSheetList, loadSheetValue, doSheetAction, initSheetValue, insertSheetValue } = mapActions()
 const { getSheetList, getSheetListDatas } = mapGetters()
 loadSheetList();
 
-const value1 = ref('amy')
+const selectSheet = ref('請選擇')
 const sheetDatas: any = reactive({
   sheetList: computed(() => getSheetList.value.map((sheet: any) => {
     return sheet.properties.title;
   })),
   sheetListDatas: getSheetListDatas
 })
+const sheetContent = reactive({value: []});
 
 // table header
 const columns = [
   {
-    dataIndex: 'name',
-    key: 'name',
-    slots: { title: 'customTitle', customRender: 'name' },
+    key: 'date',
+    title: '日期',
+    dataIndex: 'date',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    key: 'shop',
+    title: '商店',
+    dataIndex: 'shop',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    key: 'brand',
+    title: '品牌',
+    dataIndex: 'brand',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
+    dataIndex: 'product',
+    title: '商品名稱',
+    key: 'product',
+  },
+  {
+    key: 'type',
+    title: '商品類別',
+    dataIndex: 'type',
     slots: { customRender: 'tags' },
   },
   {
-    title: 'Action',
-    key: 'action',
-    slots: { customRender: 'action' },
+    key: 'unit',
+    title: '單位',
+    dataIndex: 'unit',
+  },
+  {
+    key: 'singleUnit',
+    title: '小單位',
+    dataIndex: 'singleUnit',
+  },
+  {
+    key: 'unitPrice',
+    title: '平均單價',
+    dataIndex: 'unitPrice',
+  },
+  {
+    key: 'total',
+    title: '總額',
+    dataIndex: 'total',
+  },
+  {
+    key: 'memo',
+    title: '備註',
+    dataIndex: 'memo',
   },
 ];
 // table data
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+let data: any = reactive([]);
 
+watch(selectSheet, (newValue, oldValue) => {
+  loadSheetValue(selectSheet.value)
+    .then((res) => {
+      forEach(res, (item: any, index: any) => {
+        if(index%2 === 1) sheetContent.value.push(flatten(res.splice(0, 2)));
+        console.log(sheetContent.value)
+      })
+    })
+})
 
+watch(sheetContent, (newValue, oldValue) => {
+  if(sheetContent.value.length) {
+    forEach(sheetContent.value, (content: any, index: number) => {
+      data.push({
+        key: index,
+        date: content[1],
+        shop: content[2],
+        brand: content[3],
+        product: content[4],
+        type: [content[5]],
+        unit: content[6],
+        singleUnit: content[7],
+        unitPrice: content[8],
+        total: content[9],
+        memo: content[11],
+      })
+    })
+    console.log(data)
+  }
+})
 </script>
 
 <style>
+.wrapper {
+  @media screen and (max-width:760px) {
+    overflow-x: scroll;
+  }
+}
+
 </style>
 
 

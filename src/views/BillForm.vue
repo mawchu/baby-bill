@@ -24,9 +24,6 @@ loadSheetList();
 const currentInstance = getCurrentInstance();
 if(currentInstance != null) {
   const { $axios } = currentInstance.appContext.config.globalProperties
-  // $axios.post('http://localhost:5500/google/addSheet', { data: '一些資料' })
-  //   .then((res: any) => { console.table('post res', res.data) })
-  //   .catch((err: any) => { console.log(err) })
 }
 
 const datas: any = reactive({
@@ -53,9 +50,7 @@ const datas: any = reactive({
 const needNewSheet = ref(false)
 
 function send (formDatas: any) {
-  // for(const key in formDatas) {
-  //   console.log(key, formDatas[key])
-  // }
+  console.log(formDatas)
   let formatDatas = { ...formDatas }
   formatDatas.date = (formDatas.date)?.format('YYYY/MM/DD')
   datas.date = formatDatas.date;
@@ -63,7 +58,7 @@ function send (formDatas: any) {
   datas.name = formatDatas.name;
   datas.item = formatDatas.item;
   datas.brand = formatDatas.brand;
-  datas.price = formatDatas.price;
+  datas.price = formatDatas.total;
   datas.singlePrice = formatDatas.singlePrice.value;
   datas.groupNumber = formatDatas.groupNumber;
   datas.quantity = formatDatas.quantity;

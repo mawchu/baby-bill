@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --open",
+    "dev": "vite --open --mode development",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
@@ -11,6 +11,8 @@
     "@ant-design/icons-vue": "^6.0.1",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.26.0",
+    "js-cookie": "^3.0.1",
+    "lodash-es": "^4.17.21",
     "path": "^0.12.7",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13",

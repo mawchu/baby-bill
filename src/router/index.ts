@@ -5,12 +5,18 @@ const routes = [
 	{
 		path: "/createBill",
 		name: "createBill",
-		component: BillForm
+		component: BillForm,
+		meta: {
+			middleware: []
+		}
 	},
 	{
 		path: "/billList",
 		name: "billList",
-		component: BillList
+		component: BillList,
+		meta: {
+			middleware: []
+		}
 	},
 ]
 export const router = createRouter({

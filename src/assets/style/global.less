@@ -82,17 +82,35 @@ p.router-link > a {
   .m-@{i} {
     margin: unit(@marginBase * @i, px);
   }
+  .ml-@{i} {
+    margin-left: unit(@marginBase * @i, px);
+  }
+  .mr-@{i} {
+    margin-right: unit(@marginBase * @i, px);
+  }
   .mt-@{i} {
     margin-top: unit(@marginBase * @i, px);
   }
   .mb-@{i} {
     margin-bottom: unit(@marginBase * @i, px);
   }
+  .my-@{i} {
+    margin: unit(@marginBase * @i, px) 0;
+  }
+  .mx-@{i} {
+    margin: 0 unit(@marginBase * @i, px);
+  }
   .ma-@{i} {
     margin: unit(@marginBase * @i, px);
   }
   .p-@{i} {
     padding: unit(@marginBase * @i, px);
+  }
+  .py-@{i} {
+    padding: unit(@marginBase * @i, px) 0;
+  }
+  .px-@{i} {
+    padding: 0 unit(@marginBase * @i, px);
   }
   .p-t@{i} {
     padding-top: unit(@marginBase * @i, px);
