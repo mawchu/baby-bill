@@ -149,7 +149,7 @@ const formState: UnwrapRef<FormState> = reactive({
   groupNumber: 1,
   quantity: 1,
   price: 0,
-  singlePrice: computed(()=> Number((formState.total / (formState.groupNumber * formState.quantity)).toFixed(3))),
+  singlePrice: computed(()=> Number((formState.total / (formState.groupNumber * formState.quantity)).toFixed(1))),
   total: 0,
   memo: '',
   region: ''

@@ -162,6 +162,7 @@ export const store = createStore<State>({
      * 2.合併儲存格(action = mergeCells) 提供合併位置
      */
     async doSheetAction ({ commit, dispatch }: any, payload: any) {
+      console.log('doSheetAction', payload)
       // 新增工作表
       await ApiClient.doSheet({
         datas: payload,
@@ -180,11 +181,12 @@ export const store = createStore<State>({
         .catch((err: any) => {
           console.error(err)
         })
-      // 重新取得目前列表
-      await dispatch('loadSheetList')
-      await dispatch('loadSheetValue', payload.updateMonth)
+      // // 重新取得目前列表
+      // await dispatch('loadSheetList')
+      // await dispatch('loadSheetValue', payload.updateMonth)
     },
     initSheetValue ({ commit, dispatch }: any, payload: any) {
+      console.log('initSheetValue', payload)
       return new Promise((resolve, reject) => {
         ApiClient.createSheetValue(payload)
           .then((res: any) => {

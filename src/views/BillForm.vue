@@ -62,7 +62,7 @@ function send (formDatas: any) {
   datas.singlePrice = formatDatas.singlePrice.value;
   datas.groupNumber = formatDatas.groupNumber;
   datas.quantity = formatDatas.quantity;
-  datas.memo = formatDatas.memo;
+  datas.memo = formatDatas.memo === '' ? '無' : formatDatas.memo;
   compareSheetMonth ();
   // 新的月份
   if (needNewSheet.value) {
@@ -81,7 +81,7 @@ function sendInput (datas: any) {
 }
 async function createNewSheet () {
   await doSheetAction({...datas});
-  await initSheetValue({
+  initSheetValue({
     ...datas,
     values: [
       ['', '日期', '商店', '品牌', '商品名稱', '商品類別', '單位', '小單位', '平均單價', '總額'],

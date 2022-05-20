@@ -23,11 +23,16 @@
             <a-tag
               v-for="tag in tags"
               :key="tag"
-              :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
+              :color="tagColor(tag)"
             >
-              {{ tag.toUpperCase() }}
+              {{ tag }}
             </a-tag>
           </span>
+        </template>
+        <template #expandedRowRender="{ record }">
+          <p style="margin: 0">
+            {{ record.description }}
+          </p>
         </template>
       </a-table>
     </div>
@@ -54,6 +59,18 @@ const sheetDatas: any = reactive({
   sheetListDatas: getSheetListDatas
 })
 const sheetContent = reactive({value: []});
+const tagColor = (tag: string) => {
+  const colors = {
+    '奶粉': 'red',
+    '尿布': 'volcano',
+    '玩具': 'gold',
+    '衣服': 'cyan',
+    '保養': 'geekblue',
+    '家具': 'purple',
+    '其他': 'magenta'
+  }
+  return colors[tag];
+};
 
 // table header
 const columns = [
@@ -76,6 +93,7 @@ const columns = [
     dataIndex: 'product',
     title: '商品名稱',
     key: 'product',
+    width: 200
   },
   {
     key: 'type',
@@ -87,37 +105,39 @@ const columns = [
     key: 'unit',
     title: '單位',
     dataIndex: 'unit',
+    align: 'right'
   },
   {
     key: 'singleUnit',
     title: '小單位',
     dataIndex: 'singleUnit',
+    align: 'right'
   },
   {
     key: 'unitPrice',
     title: '平均單價',
     dataIndex: 'unitPrice',
+    align: 'right'
   },
   {
     key: 'total',
     title: '總額',
     dataIndex: 'total',
-  },
-  {
-    key: 'memo',
-    title: '備註',
-    dataIndex: 'memo',
-  },
+    align: 'right'
+  }
 ];
 // table data
 let data: any = reactive([]);
+
 
 watch(selectSheet, (newValue, oldValue) => {
   loadSheetValue(selectSheet.value)
     .then((res) => {
       forEach(res, (item: any, index: any) => {
-        if(index%2 === 1) sheetContent.value.push(flatten(res.splice(0, 2)));
-        console.log(sheetContent.value)
+        if(index%2 === 1) {
+          sheetContent.value.push(flatten(res.splice(0, 2)));
+          console.log(sheetContent.value)
+        }
       })
     })
 })
@@ -136,7 +156,7 @@ watch(sheetContent, (newValue, oldValue) => {
         singleUnit: content[7],
         unitPrice: content[8],
         total: content[9],
-        memo: content[11],
+        description: content[11],
       })
     })
     console.log(data)
