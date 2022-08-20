@@ -130,6 +130,7 @@ import type { FormState, FormRules, InputState } from '../interface/interface'
 import Input from './input/Input.vue'
 import SelectInput from './input/SelectInput.vue'
 import DatepickerInput from './input/DatepickerInput.vue'
+import { selections } from '../utility/globalData';
 
 const props = defineProps<{ title: string }>()
 const emit = defineEmits(['send', 'sendInput', 'sendDate', 'sendSelect'])
@@ -154,15 +155,7 @@ const formState: UnwrapRef<FormState> = reactive({
   memo: '',
   region: ''
 });
-const options = [
-  { item: '奶粉' },
-  { item: '尿布' },
-  { item: '玩具' },
-  { item: '衣服' },
-  { item: '保養' },
-  { item: '家具' },
-  { item: '其他' }
-]
+const options = selections;
 
 // 自定義規則
 let checkQuantity = async (rule: RuleObject, value: number) => {
@@ -199,16 +192,57 @@ let checkSelect = async (rule: RuleObject, value: number) => {
 };
 // 驗證規則
 const rules: FormRules = {
-  date: [{ required: true, message: '請選擇購買日期', trigger: 'change', type: 'object'}],
-  shop: [{ required: true, message: '請輸入商店', trigger: 'blur' }],
-  name: [{ required: true, validator: checkSelect, trigger: 'blur' }],
-  item: [{ required: true, validator: checkSelect, trigger: 'blur' }],
-  brand: [{ required: true, message: '請輸入廠牌', trigger: 'blur' }],
-  groupNumber: [{ required: true, validator: checkQuantity , trigger: 'change' }],
-  quantity: [{ required: true, validator: checkQuantity , trigger: 'change' }],
-  singlePrice: [{ required: false, validator: checkPrice, trigger: 'change' }],
-  price: [{ required: true, validator: checkPrice, trigger: 'change' }],
-  total: [{ required: true, validator: checkPrice, trigger: 'change' }]
+  date: [{
+    required: true,
+    message: '請選擇購買日期',
+    trigger: 'change',
+    type: 'object'
+  }],
+  shop: [{
+    required: true,
+    message: '請輸入商店',
+    trigger: 'blur'
+  }],
+  name: [{
+    required: true,
+    validator: checkSelect,
+    trigger: 'blur'
+  }],
+  item: [{
+    required: true,
+    validator: checkSelect,
+    trigger: 'blur'
+  }],
+  brand: [{
+    required: true,
+    message: '請輸入廠牌',
+    trigger: 'blur'
+  }],
+  groupNumber: [{
+    required: true,
+    validator: checkQuantity,
+    trigger: 'change'
+  }],
+  quantity: [{
+    required: true,
+    validator: checkQuantity,
+    trigger: 'change'
+  }],
+  singlePrice: [{
+    required: false,
+    validator: checkPrice,
+    trigger: 'change'
+  }],
+  price: [{
+    required: true,
+    validator: checkPrice,
+    trigger: 'change'
+  }],
+  total: [{
+    required: true,
+    validator: checkPrice,
+    trigger: 'change'
+  }]
 };
 
 function sendDatas () {
@@ -241,7 +275,7 @@ function sendDate (data: any) {
 }
 
 function sendSelect (data: any) {
-  formState.item = data.value;
+  formState.item = getSelectionsChinese(data.value);
   emit('sendSelect', data);
 }
 

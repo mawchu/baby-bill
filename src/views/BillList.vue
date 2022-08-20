@@ -13,7 +13,7 @@
       </a-select-option>
     </a-select>
     </div>
-    <div class="wrapper">
+    <div class="wrapper overflow-hidden w-100">
       <a-table
         :columns="columns"
         :data-source="data"
@@ -61,13 +61,14 @@ const sheetDatas: any = reactive({
 const sheetContent = reactive({value: []});
 const tagColor = (tag: string) => {
   const colors = {
-    '奶粉': 'red',
-    '尿布': 'volcano',
-    '玩具': 'gold',
-    '衣服': 'cyan',
-    '保養': 'geekblue',
-    '家具': 'purple',
-    '其他': 'magenta'
+    0: 'volcano',
+    1: 'gold',
+    2: 'cyan',
+    3: 'geekblue',
+    4: 'purple',
+    5: 'magenta',
+    6: 'magenta',
+    7: 'magenta'
   }
   return colors[tag];
 };
@@ -131,12 +132,13 @@ let data: any = reactive([]);
 
 
 watch(selectSheet, (newValue, oldValue) => {
+  data.splice(0);
+  sheetContent.value.splice(0);
   loadSheetValue(selectSheet.value)
     .then((res) => {
       forEach(res, (item: any, index: any) => {
-        if(index%2 === 1) {
+        if(index % 2 === 1) {
           sheetContent.value.push(flatten(res.splice(0, 2)));
-          console.log(sheetContent.value)
         }
       })
     })
@@ -162,15 +164,18 @@ watch(sheetContent, (newValue, oldValue) => {
     console.log(data)
   }
 })
+
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   @media screen and (max-width:760px) {
     overflow-x: scroll;
   }
 }
-
+th {
+  min-width: 120px;
+}
 </style>
 
 

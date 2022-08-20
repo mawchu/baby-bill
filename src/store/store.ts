@@ -168,7 +168,7 @@ export const store = createStore<State>({
         datas: payload,
         action: 'addSheet'
       })
-        .then((res: any)=>console.log(res))
+        .then((res: any)=> console.log(res))
         .catch((err: any) => {
           console.error(err)
         })
