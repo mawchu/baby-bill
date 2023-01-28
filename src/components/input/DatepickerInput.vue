@@ -22,10 +22,11 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['sendDate'])
-const dateDatas: UnwrapRef<DateState> = reactive({
+const dateDatas: any = reactive({
   label: props.label,
   name: props.name,
-  value: ''
+  value: '',
+  date: ''
 })
 
 function sendDatepickerEmit () {

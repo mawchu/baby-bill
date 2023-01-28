@@ -131,6 +131,7 @@ import Input from './input/Input.vue'
 import SelectInput from './input/SelectInput.vue'
 import DatepickerInput from './input/DatepickerInput.vue'
 import { selections } from '../utility/globalData';
+import { getSelectionsChinese } from '../utility/globalData';
 
 const props = defineProps<{ title: string }>()
 const emit = defineEmits(['send', 'sendInput', 'sendDate', 'sendSelect'])
@@ -140,7 +141,7 @@ const today = moment()
 const isReset = ref(false)
 const showUnit = ref(false)
 const formRef = ref()
-const formState: UnwrapRef<FormState> = reactive({
+const formState: any = reactive({
   layout: 'vertical',
   date: undefined,
   shop: '',

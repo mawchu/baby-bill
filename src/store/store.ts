@@ -104,7 +104,7 @@ export const store = createStore<State>({
           Cookies.set('userName', escape(res.data.name) , { expires: 1/24 });
           Cookies.set('userEmail', res.data.email, { expires: 1/24 });
           Cookies.set('userAvatar', res.data.picture, { expires: 1/24 });
-          window.history.replaceState(null, null, window.location.pathname);
+          window.history.replaceState(null, null || '', window.location.pathname);
         })
         .catch((err: any) => console.log(err));
     },

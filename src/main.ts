@@ -18,7 +18,7 @@ app.config.globalProperties.$axios = Axios;
 
 // 父組件全局註冊ICONS
 for(const i in icons) {
-  app.component(i, Icons[i]);
+  app.component(i, Icons[i as keyof typeof Icons]);
 }
 
 app.mount('#app')

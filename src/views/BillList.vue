@@ -49,7 +49,7 @@ import { groupBy, map, forEach, flatten } from 'lodash-es';
 // mapStates 組合引入寫法
 const { loadSheetList, loadSheetValue, doSheetAction, initSheetValue, insertSheetValue } = mapActions()
 const { getSheetList, getSheetListDatas } = mapGetters()
-loadSheetList();
+loadSheetList('');
 
 const selectSheet = ref('請選擇')
 const sheetDatas: any = reactive({
@@ -58,9 +58,9 @@ const sheetDatas: any = reactive({
   })),
   sheetListDatas: getSheetListDatas
 })
-const sheetContent = reactive({value: []});
+const sheetContent: any = reactive({value: []});
 const tagColor = (tag: string) => {
-  const colors = {
+  const colors: any = {
     0: 'volcano',
     1: 'gold',
     2: 'cyan',
@@ -135,7 +135,7 @@ watch(selectSheet, (newValue, oldValue) => {
   data.splice(0);
   sheetContent.value.splice(0);
   loadSheetValue(selectSheet.value)
-    .then((res) => {
+    .then((res: any) => {
       forEach(res, (item: any, index: any) => {
         if(index % 2 === 1) {
           sheetContent.value.push(flatten(res.splice(0, 2)));

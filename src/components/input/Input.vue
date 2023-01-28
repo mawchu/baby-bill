@@ -47,7 +47,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['sendInput'])
-const inputDatas = reactive({
+const inputDatas: any = reactive({
   label: props.label,
   name: props.name,
   numberValue: 1,
@@ -66,7 +66,7 @@ function inputSendEmit () {
 }
 
 watch(()=> props.isReset, ()=> {
-  const initialValue = {
+  const initialValue: any = {
     numberValue: 1,
     priceValue: 0,
     textValue: '',

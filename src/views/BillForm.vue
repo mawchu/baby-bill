@@ -19,7 +19,7 @@ const { getSheetList, getSheetListDatas } = mapGetters()
 // const store = useStore(key)
 // console.log(store.state.count) 
 
-loadSheetList();
+loadSheetList('');
 // 元件裡使用全局套件的方法 例如 axios
 const currentInstance = getCurrentInstance();
 if(currentInstance != null) {

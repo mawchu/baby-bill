@@ -6,7 +6,7 @@ const mapState = () => {
   const store = useStore(key)
   return Object.fromEntries(
     Object.keys(store.state).map(
-      key => [key, computed(() => store.state[key])]
+      key => [key, computed(() => store.state[key as keyof typeof store.state])]
     )
   )
 }
@@ -20,19 +20,19 @@ const mapGetters = () => {
   )
 }
 const mapMutations = () => {
-  const store = useStore(key)
+  const store: any = useStore(key)
   return Object.fromEntries(
     Object.keys(store._mutations).map(
-      mutation => [mutation, value => store.commit(mutation, value)]
+      mutation => [mutation, (value: any) => store.commit(mutation, value)]
     )
   )
 }
 
 const mapActions = () => {
-  const store = useStore(key)
+  const store: any = useStore(key)
   return Object.fromEntries(
     Object.keys(store._actions).map(
-      action => [action, value => store.dispatch(action, value)]
+      action => [action, (value?: any) => store.dispatch(action, value)]
     )
   )
 }
